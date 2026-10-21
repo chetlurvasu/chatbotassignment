@@ -426,7 +426,7 @@ elif S.step == "part_b":
         st.divider()
         mc = st.radio(MANIPULATION_CHECK["question"], MANIPULATION_CHECK["options"], index=None)
         a["author_professional"] = scale("9. How would you rate the professionalism of the chatbot's "
-                                         "developer, based on their background?",
+                                         "developer, based on his/her background?",
                                          "not at all professional", "very professional", "b9")
         a["trust_if_professor"] = yes_no("10. Would you trust the chatbot more if it had been developed "
                                          "by a professor of AI or Data Science?", "b10")
@@ -434,7 +434,7 @@ elif S.step == "part_b":
                                 "improving the AI chatbot. (optional)")
 
         if st.form_submit_button("Submit", type="primary"):
-            if S.get("save_started"):         # double click on Submit: already being saved
+            if S.get("save_started"):         
                 go("debrief")
             if any(v is None or v == [] for v in a.values()) or mc is None:
                 st.error("Please answer all questions (only question 11 is optional).")
