@@ -8,7 +8,7 @@ We are proposing a between subjects design.
 
 1. Participants are randomly assigned to one of two conditions:
     - Condition 1: The chatbot is said to be developed by a PhD researcher in AI.
-    - Condition 2: The chatbot is said to be developed by -------
+    - Condition 2: The chatbot is said to be developed by a passionate high-school graduate, aided by AI.
 
 2. participants are asked to use the chatbot to find a restaurant in Cambridge that 
 meets certain criteria. 
@@ -46,10 +46,10 @@ CONDITIONS = {
         ),
     },
     "bsc": {
-        "label": "Developed by -----------",
+        "label": "Developed by a passionate high-school graduate, aided by AI",
         "text": (
             "This restaurant recommendation assistant was developed by "
-            "**a team of ---------."
+            "**a passionate high-school graduate, aided by AI**."
         ),
     },
 }
@@ -66,10 +66,10 @@ CONSENT_TEXT = """
 We are students at Utrecht University, conducting
 a study for our course. 
 
-**What you will do (takes only about 5-10 minutes):**
-1. answer a few short questions about yourself,
-2. use a restaurant recommendation chatbot for a short task,
-3. answer some questions about your experience.
+**What you have todo (takes only about 5-10 minutes):**
+1. Answer a few short questions about yourself,
+2. Use a restaurant recommendation chatbot for a short task,
+3. Answer some questions about your experience.
 
 **Your data:** We do not ask for your name, email or any other information that
 identifies you. You get a random participant ID, and all answers are stored under
@@ -92,50 +92,47 @@ CONSENT_CHECKBOXES = [
 
 TASK_TEXT = """
 **Your task:** You are visiting Cambridge. Use the assistant to find a restaurant
-that matches yourwishes:
+that matches your wishes.
 
-Example conversioantion with the assistant:
+**Example conversation with the assistant:**
 
-System: Hello, welcome to the Cambridge restaurant recommendation system. How may I help you?\n
-You: hello i want to visit an italian place\n
-System: What part of town would you prefer?\n
-You: anywhere\n
-System: What price range are you looking for?\n
-You: moderate \n
-System: I found some restaurants matching your preferences. Do you have any additional requirements?\n
-You: no\n
-System: I recommend pizza hut fen ditton, a moderately priced italian restaurant in the east of town.\n
-You: ok\n
-System: Would you like to book a table at pizza hut fen ditton?\n
-You: yes table for 4 at 6pm today \n
-System: Shall I book a table for 4 people at 6:00 pm at pizza hut fen ditton?\n
-You: yes\n
-System: Your table for 4 at 6:00 pm at pizza hut fen ditton is booked. Is there anything else I can help you with?\n
-You: no\n
-System: Enjoy your meal! Goodbye!\n
-
+- **System:** Hello, welcome to the Cambridge restaurant recommendation system. How may I help you?
+- **You:** hello i want to visit an italian place
+- **System:** What part of town would you prefer?
+- **You:** anywhere
+- **System:** What price range are you looking for?
+- **You:** moderate
+- **System:** I found some restaurants matching your preferences. Do you have any additional requirements?
+- **You:** no
+- **System:** I recommend pizza hut fen ditton, a moderately priced italian restaurant in the east of town.
+- **You:** ok
+- **System:** Would you like to book a table at pizza hut fen ditton?
+- **You:** yes table for 4 at 6pm today
+- **System:** Shall I book a table for 4 people at 6:00 pm at pizza hut fen ditton?
+- **You:** yes
+- **System:** Your table for 4 at 6:00 pm at pizza hut fen ditton is booked. Is there anything else I can help you with?
+- **You:** no
+- **System:** Enjoy your meal! Goodbye!
 
 """
 
 LIKERT = ["1", "2", "3", "4", "5", "6", "7"]
 LIKERT_HELP = "1 = strongly disagree, 7 = strongly agree"
 
-# Part B items: (column name in the sheet, statement). Add/remove/edit freely.
-PART_B_ITEMS = [
-    ("quality_understood", "The assistant understood what I wanted."),
-    ("quality_relevant", "The assistant's answers were relevant to my request."),
-    ("quality_easy", "The assistant was easy to use."),
-    ("quality_overall", "Overall, the assistant is of high quality."),
-    ("reliab_reliable", "The assistant is reliable."),
-    ("reliab_trust", "I can trust the recommendations of this assistant."),
-    ("reliab_dependable", "I could depend on this assistant to find a restaurant."),
-    ("reliab_reuse", "I would use this assistant again."),
+
+# Part B answer options
+YES_NO = ["Yes", "No"]
+FACES = ["😞 Much worse", "🙁 Worse", "😐 About the same", "🙂 Better", "😄 Much better"]
+USE_CASES = [
+    "Daily support / everyday questions", "Studies / homework", "Mathematics",
+    "Programming / coding", "Writing or editing texts", "Translation",
+    "Restaurant or travel recommendations", "Shopping", "Health or fitness",
+    "Work tasks", "Entertainment / just chatting", "Other", "I don't use AI chatbots",
 ]
 
 MANIPULATION_CHECK = {
     "question": "Who developed the chatbot you just used?",
-    "options": ["A PhD researcher", "A team of first-year Bachelor's students",
-                "A company", "I don't remember"],
+    "options": ["A PhD researcher", "A high-school graduate, aided by AI", "A company", "I don't remember"],
 }
 
 DEBRIEF_TEXT = """
@@ -144,8 +141,8 @@ DEBRIEF_TEXT = """
 **What this study was really about:** We investigate whether information about *who made*
 a chatbot changes how good and reliable people think it is. Before the task, you were told
 who developed the assistant. **This information was made up**: half of the participants
-read that it was built by a PhD researcher, the other half that it was built by first-year
-Bachelor's students. Everyone used exactly the same chatbot.
+read that it was built by a PhD researcher, the other half that it was built by a passionate
+ high-school graduate, aided by AI. Everyone used exactly the same chatbot.
 
 We could not tell you this beforehand, because knowing it would have influenced your answers.
 
@@ -156,9 +153,7 @@ participants about the purpose of the study until data collection is over.
 *Contact: Name: Chetlur Vasundhara | Email: c.chetlurvasundhara@students.uu.nl*
 """
 
-"""
-this is the chatbiot taken from the part 1 of the assignment 
-"""
+
 BOT_CONFIG = dict(show_reasoning=True, slot_method="levenshtein", confirm_semantic=True)
 
 
@@ -200,11 +195,6 @@ def start_dialog():
     return bot, bot.start()
 
 
-
-# Streamlit secrets (App settings -> Secrets):
-#   sheet_webhook = "https://script.google.com/macros/s/....../exec"
-#   sheet_secret  = "the same secret word as in the Apps Script"
-# Without secrets (local testing), rows are written to results_local/*.csv instead.
 
 
 def _secret(name):
@@ -287,9 +277,7 @@ def log_turn(speaker, text):
                           "dialog_state": getattr(S.get("bot"), "state", "")})
 
 
-# =============================================================================
-# 4. APP FLOW
-# =============================================================================
+# website flow
 st.set_page_config(page_title="Chatbot Study", page_icon="🍽️")
 S = st.session_state
 
@@ -309,7 +297,7 @@ def go(step):
     st.rerun()
 
 
-# --- Information & consent ---------------------------------------------------
+# generaral info and constent
 if S.step == "consent":
     st.markdown(CONSENT_TEXT)
     checks = [st.checkbox(t, key=f"consent_{i}") for i, t in enumerate(CONSENT_CHECKBOXES)]
@@ -317,38 +305,38 @@ if S.step == "consent":
         S.record["consent_time"] = now()
         go("part_a")
 
-# --- Part A: about you -------------------------------------------------------------
+# Persoanl info part a
 elif S.step == "part_a":
     st.header("Part A: About you")
     st.caption(f"Your participant ID: {S.pid}")
+    SCALE = ["1", "2", "3", "4", "5", "6", "7"]
     with st.form("part_a"):
-        age = st.number_input("What is your age?", min_value=18, max_value=99, value=None, step=1)
-        gender = st.radio("What is your gender?", ["Female", "Male", "Non-binary / other",
-                                                   "Prefer not to say"], index=None)
-        occupation = st.radio("What is your current occupation?",
-                              ["Bachelor's student", "Master's student", "PhD student",
-                               "Employed", "Other"], index=None)
-        field = st.text_input("Field of study or work (e.g. AI, psychology, economics):")
-        english = st.radio("How would you rate your English?",
+        age = st.number_input("1. How old are you?", max_value=99, value=None, step=1)
+        gender = st.radio("2. What is your gender?",
+                          ["Female", "Male", "Non-binary / other", "Prefer not to say"], index=None)
+        profession = st.text_input("3. Which organization or profession are you in? ")
+        english = st.radio("4. How would you rate your English proficiency?",
                            ["Basic", "Intermediate", "Advanced", "Native"], index=None, horizontal=True)
-        chatbot_use = st.radio("How often do you use chatbots or AI assistants (e.g. ChatGPT)?",
-                               ["Never", "Less than monthly", "Monthly", "Weekly", "Daily"],
-                               index=None, horizontal=True)
-        ai_knowledge = st.radio("How much do you know about how chatbots work? "
-                                "(1 = nothing, 7 = expert)", LIKERT, index=None, horizontal=True)
+        ai_familiarity = st.radio("5. How familiar are you with AI? "
+                                  "(1 = not at all familiar, 7 = very familiar)",
+                                  SCALE, index=None, horizontal=True)
+        ai_risks = st.radio("6. How familiar are you with the different errors and risks "
+                            "associated with the use of AI? (1 = not at all familiar, 7 = very familiar)",
+                            SCALE, index=None, horizontal=True)
+        ai_view = st.text_area("7. What is your view on AI in general?")
         if st.form_submit_button("Continue", type="primary"):
-            answers = {"age": age, "gender": gender, "occupation": occupation,
-                       "english": english, "chatbot_use": chatbot_use, "ai_knowledge": ai_knowledge}
-            if any(v is None for v in answers.values()):
-                st.error("Please answer all questions (only the field of study may be left empty).")
+            answers = {"age": age, "gender": gender, "profession": profession.strip(),
+                       "english": english, "ai_familiarity": ai_familiarity,
+                       "ai_risk_familiarity": ai_risks, "ai_view": ai_view.strip()}
+            if any(v is None or v == "" for v in answers.values()):
+                st.error("Please answer all questions.")
             else:
                 S.record.update({f"A_{k}": v for k, v in answers.items()})
-                S.record["A_field"] = field.strip()
                 go("intro")
 
-# --- Author manipulation + task ----------------------------------------------------
+# intro to cahtbot
 elif S.step == "intro":
-    st.title("🍽️ Restaurant Assistant")
+    st.title("Restaurant Assistant")
     st.info(cond["text"])
     st.markdown(TASK_TEXT)
     if st.button("Start chatting", type="primary"):
@@ -358,14 +346,15 @@ elif S.step == "intro":
         log_turn("bot", welcome)
         go("chat")
 
-# --- Chat --------------------------------------------------------------------------
+# Chating with bot
 elif S.step == "chat":
-    st.title("🍽️ Restaurant Assistant")
-    st.caption(cond["label"])  # keeps the manipulation visible during the task
+    st.title("Restaurant Assistant")
+    # keeps the manipulation visible during the task
+    st.caption(cond["label"])  
     with st.expander("Show task again"):
         st.markdown(TASK_TEXT)
 
-    # Answer queued messages one by one (nothing is lost if someone sends two quickly).
+    
     while S.pending:
         user_text = S.pending[0]
         try:
@@ -408,31 +397,66 @@ elif S.step == "chat":
         })
         go("part_b")
 
+# Part B: research questions
 # --- Part B: research questions ------------------------------------------------------
 elif S.step == "part_b":
     st.header("Part B: Your experience with the assistant")
-    st.caption(f"How much do you agree with each statement? ({LIKERT_HELP})")
+
+    def scale(question, low, high, key):
+        return st.radio(f"{question} (1 = {low}, 7 = {high})", LIKERT, index=None,
+                        horizontal=True, key=key)
+
+    def yes_no(question, key):
+        return st.radio(question, YES_NO, index=None, horizontal=True, key=key)
+
     with st.form("part_b"):
-        answers = {}
-        for key, statement in PART_B_ITEMS:
-            answers[key] = st.radio(statement, LIKERT, index=None, horizontal=True, key=f"B_{key}")
+        a = {}
+        a["trust"] = scale("1. How would you rate your overall trust in the AI chatbot?",
+                           "no trust at all", "complete trust", "b1")
+        a["friendly"] = scale("2. How friendly or approachable did you find the AI chatbot?",
+                              "not at all", "very", "b2")
+        a["comfort_personal_info"] = scale("3. How comfortable would you be sharing personal "
+                                           "information with the AI chatbot?", "not at all", "very", "b3")
+        a["recommend"] = yes_no("4. Would you recommend the AI chatbot to others?", "b4")
+        a["vs_human"] = st.radio("5. Compared to human support, how well does the AI chatbot meet your needs?",
+                                 FACES, index=None, horizontal=True, key="b5")
+        a["use_cases"] = st.multiselect("6. What do you usually use AI chatbots for? "
+                                        "(select all that apply)", USE_CASES, key="b6")
+        a["info_used_well"] = yes_no("7. Did you feel the chatbot used the information you gave it "
+                                     "well for its suggestion?", "b7")
+        a["reliable"] = scale("8. How reliable did you find the AI chatbot's responses?",
+                              "not at all reliable", "very reliable", "b8")
         st.divider()
         mc = st.radio(MANIPULATION_CHECK["question"], MANIPULATION_CHECK["options"], index=None)
-        comments = st.text_area("Any other comments about the assistant? (optional)")
+        a["author_professional"] = scale("9. How would you rate the professionalism of the chatbot's "
+                                         "developer, based on their background?",
+                                         "not at all professional", "very professional", "b9")
+        a["trust_if_professor"] = yes_no("10. Would you trust the chatbot more if it had been developed "
+                                         "by a professor of AI or Data Science?", "b10")
+        comments = st.text_area("11. Please share any additional feedback or suggestions for "
+                                "improving the AI chatbot. (optional)")
+
         if st.form_submit_button("Submit", type="primary"):
-            if any(v is None for v in answers.values()) or mc is None:
-                st.error("Please answer all questions (comments are optional).")
+            if S.get("save_started"):         # double click on Submit: already being saved
+                go("debrief")
+            if any(v is None or v == [] for v in a.values()) or mc is None:
+                st.error("Please answer all questions (only question 11 is optional).")
             else:
-                S.record.update({f"B_{k}": int(v) for k, v in answers.items()})
+                for k in ("trust", "friendly", "comfort_personal_info", "reliable", "author_professional"):
+                    a[k] = int(a[k])                              # 1-7 as numbers
+                a["vs_human"] = FACES.index(a["vs_human"]) + 1    # faces as 1-5
+                a["use_cases"] = "; ".join(a["use_cases"])
+                S.record.update({f"B_{k}": v for k, v in a.items()})
                 S.record["manip_check"] = mc
                 S.record["comments"] = comments.strip()
                 S.record["end_time"] = now()
                 if SAVE_CHAT_TEXT:
                     S.record["transcript"] = "\n".join(S.transcript)
+                S.save_started = True
                 S.saved = save_row("participants", S.record)
                 go("debrief")
 
-# --- Debrief -------------------------------------------------------------------------
+# last thank you  
 elif S.step == "debrief":
     st.markdown(DEBRIEF_TEXT)
     st.markdown(f"**Your participant ID: {S.pid}**")
