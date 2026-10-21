@@ -33,9 +33,6 @@ import streamlit as st
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))  
 
-"""
-This is where we define the condition for the study 
-"""
 
 CONDITIONS = {
     "phd": {
@@ -66,7 +63,7 @@ CONSENT_TEXT = """
 We are students at Utrecht University, conducting
 a study for our course. 
 
-**What you have todo (takes only about 5-10 minutes):**
+**What you have to do (takes only about 5-10 minutes):**
 1. Answer a few short questions about yourself,
 2. Use a restaurant recommendation chatbot for a short task,
 3. Answer some questions about your experience.
