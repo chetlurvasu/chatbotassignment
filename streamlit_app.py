@@ -92,27 +92,25 @@ TASK_TEXT = """
 **Your task:** You are visiting Cambridge. Use the assistant to find a restaurant
 that matches your wishes.
 
-**How to talk to the assistant.** It understands these words:
-
 **Example conversation with the assistant:**
 
-**System:** Hello, welcome to the Cambridge restaurant recommendation system. How may I help you?
-**You:** hello i want to visit an italian place
-**System:** What part of town would you prefer?
-**You:** anywhere
-**System:** What price range are you looking for?
-**You:** moderate
-**System:** I found some restaurants matching your preferences. Do you have any additional requirements?
-**You:** no
-**System:** I recommend pizza hut fen ditton, a moderately priced italian restaurant in the east of town.
-**You:** ok
-**System:** Would you like to book a table at pizza hut fen ditton?
-**You:** yes table for 4 at 6pm today
-**System:** Shall I book a table for 4 people at 6:00 pm at pizza hut fen ditton?
-**You:** yes
-**System:** Your table for 4 at 6:00 pm at pizza hut fen ditton is booked. Is there anything else I can help you with?
-**You:** no
-**System:** Enjoy your meal! Goodbye!
+- **System:** Hello, welcome to the Cambridge restaurant recommendation system. How may I help you?
+- **You:** hello i want to visit an italian place
+- **System:** What part of town would you prefer?
+- **You:** anywhere
+- **System:** What price range are you looking for?
+- **You:** moderate
+- **System:** I found some restaurants matching your preferences. Do you have any additional requirements?
+- **You:** no
+- **System:** I recommend pizza hut fen ditton, a moderately priced italian restaurant in the east of town.
+- **You:** ok
+- **System:** Would you like to book a table at pizza hut fen ditton?
+- **You:** yes table for 4 at 6pm today
+- **System:** Shall I book a table for 4 people at 6:00 pm at pizza hut fen ditton?
+- **You:** yes
+- **System:** Your table for 4 at 6:00 pm at pizza hut fen ditton is booked. Is there anything else I can help you with?
+- **You:** no
+- **System:** Enjoy your meal! Goodbye!
 
 Note:
 **Price:** cheap, moderate or expensive *(no amounts)*
