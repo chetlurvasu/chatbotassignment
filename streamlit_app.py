@@ -96,23 +96,23 @@ that matches yourwishes:
 
 Example conversioantion with the assistant:
 
-System: Hello, welcome to the Cambridge restaurant recommendation system. How may I help you?
-You: hello i want to visit an italian place
-System: What part of town would you prefer?
-You: anywhere
-System: What price range are you looking for?
-You: moderate 
-System: I found some restaurants matching your preferences. Do you have any additional requirements?
-You: no
-System: I recommend pizza hut fen ditton, a moderately priced italian restaurant in the east of town.
-You: ok
-System: Would you like to book a table at pizza hut fen ditton?
-You: yes table for 4 at 6pm today 
-System: Shall I book a table for 4 people at 6:00 pm at pizza hut fen ditton?
-You: yes
-System: Your table for 4 at 6:00 pm at pizza hut fen ditton is booked. Is there anything else I can help you with?
-You: no
-System: Enjoy your meal! Goodbye!
+System: Hello, welcome to the Cambridge restaurant recommendation system. How may I help you?\n
+You: hello i want to visit an italian place\n
+System: What part of town would you prefer?\n
+You: anywhere\n
+System: What price range are you looking for?\n
+You: moderate \n
+System: I found some restaurants matching your preferences. Do you have any additional requirements?\n
+You: no\n
+System: I recommend pizza hut fen ditton, a moderately priced italian restaurant in the east of town.\n
+You: ok\n
+System: Would you like to book a table at pizza hut fen ditton?\n
+You: yes table for 4 at 6pm today \n
+System: Shall I book a table for 4 people at 6:00 pm at pizza hut fen ditton?\n
+You: yes\n
+System: Your table for 4 at 6:00 pm at pizza hut fen ditton is booked. Is there anything else I can help you with?\n
+You: no\n
+System: Enjoy your meal! Goodbye!\n
 
 
 """
