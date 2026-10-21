@@ -1,0 +1,6 @@
+streamlit>=1.37
+requests
+pandas
+scikit-learn==1.8.0
+joblib
+python-Levenshtein
