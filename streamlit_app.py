@@ -1,17 +1,17 @@
 """
 Restaurant Assistant study (Group B4)
 
-Research question: How much does the authority of the chatbot’s author influence a 
+Research question: How much does the authority of the chatbot’s author influence a
 user’s opinion on the chatbot’s quality/reliability?
 
-We are proposing a between subjects design. 
+We are proposing a between subjects design.
 
 1. Participants are randomly assigned to one of two conditions:
     - Condition 1: The chatbot is said to be developed by a PhD researcher in AI.
     - Condition 2: The chatbot is said to be developed by a passionate high-school graduate, aided by AI.
 
-2. participants are asked to use the chatbot to find a restaurant in Cambridge that 
-meets certain criteria. 
+2. participants are asked to use the chatbot to find a restaurant in Cambridge that
+meets certain criteria.
 
 3. After the task, participants are asked to rate the chatbot on a number of questions
 
@@ -31,8 +31,9 @@ import requests
 import streamlit as st
 
 HERE = Path(__file__).resolve().parent
-sys.path.insert(0, str(HERE))  
+sys.path.insert(0, str(HERE))
 
+# This is where we define the conditions for the study
 
 CONDITIONS = {
     "phd": {
@@ -61,7 +62,7 @@ CONSENT_TEXT = """
 ### Information about this study
 
 We are students at Utrecht University, conducting
-a study for our course. 
+a study for our course.
 
 **What you have to do (takes only about 5-10 minutes):**
 1. Answer a few short questions about yourself,
@@ -71,7 +72,7 @@ a study for our course.
 **Your data:** We do not ask for your name, email or any other information that
 identifies you. You get a random participant ID, and all answers are stored under
 that ID only, in a password-protected spreadsheet that only the research team can
-access. Data are used only for this course project and deleted after the course. 
+access. Data are used only for this course project and deleted after the course.
 Results are reported only as group averages.
 
 **Voluntary:** Participation is voluntary. You can stop at any time by closing this
@@ -91,25 +92,30 @@ TASK_TEXT = """
 **Your task:** You are visiting Cambridge. Use the assistant to find a restaurant
 that matches your wishes.
 
+**How to talk to the assistant.** It understands these words:
+
 **Example conversation with the assistant:**
 
-- **System:** Hello, welcome to the Cambridge restaurant recommendation system. How may I help you?
-- **You:** hello i want to visit an italian place
-- **System:** What part of town would you prefer?
-- **You:** anywhere
-- **System:** What price range are you looking for?
-- **You:** moderate
-- **System:** I found some restaurants matching your preferences. Do you have any additional requirements?
-- **You:** no
-- **System:** I recommend pizza hut fen ditton, a moderately priced italian restaurant in the east of town.
-- **You:** ok
-- **System:** Would you like to book a table at pizza hut fen ditton?
-- **You:** yes table for 4 at 6pm today
-- **System:** Shall I book a table for 4 people at 6:00 pm at pizza hut fen ditton?
-- **You:** yes
-- **System:** Your table for 4 at 6:00 pm at pizza hut fen ditton is booked. Is there anything else I can help you with?
-- **You:** no
-- **System:** Enjoy your meal! Goodbye!
+**System:** Hello, welcome to the Cambridge restaurant recommendation system. How may I help you?
+**You:** hello i want to visit an italian place
+**System:** What part of town would you prefer?
+**You:** anywhere
+**System:** What price range are you looking for?
+**You:** moderate
+**System:** I found some restaurants matching your preferences. Do you have any additional requirements?
+**You:** no
+**System:** I recommend pizza hut fen ditton, a moderately priced italian restaurant in the east of town.
+**You:** ok
+**System:** Would you like to book a table at pizza hut fen ditton?
+**You:** yes table for 4 at 6pm today
+**System:** Shall I book a table for 4 people at 6:00 pm at pizza hut fen ditton?
+**You:** yes
+**System:** Your table for 4 at 6:00 pm at pizza hut fen ditton is booked. Is there anything else I can help you with?
+**You:** no
+**System:** Enjoy your meal! Goodbye!
+
+Note:
+**Price:** cheap, moderate or expensive *(no amounts)*
 
 """
 
@@ -129,7 +135,8 @@ USE_CASES = [
 
 MANIPULATION_CHECK = {
     "question": "Who developed the chatbot you just used?",
-    "options": ["A PhD researcher", "A high-school graduate, aided by AI", "A company", "I don't remember"],
+    "options": ["A PhD researcher", "A high-school graduate, aided by AI",
+                "A company", "I don't remember"],
 }
 
 DEBRIEF_TEXT = """
@@ -329,12 +336,23 @@ elif S.step == "part_a":
                 st.error("Please answer all questions.")
             else:
                 S.record.update({f"A_{k}": v for k, v in answers.items()})
-                go("intro")
+                go("developer")
+
+# about the developer (the manipulation, on its own page)
+elif S.step == "developer":
+    st.title("About the assistant you will use")
+    with st.container(border=True):
+        st.markdown("#### 👤 Meet the developer")
+        dev_text = cond["text"].replace("**", "")
+        st.markdown(f"<p style='font-size:1.3rem; line-height:1.5'>{dev_text}</p>", unsafe_allow_html=True)
+    st.write("")
+    if st.button("Continue to the task →", type="primary"):
+        S.record["developer_seen"] = now()
+        go("intro")
 
 # intro to cahtbot
 elif S.step == "intro":
     st.title("Restaurant Assistant")
-    st.info(cond["text"])
     st.markdown(TASK_TEXT)
     if st.button("Start chatting", type="primary"):
         S.bot, welcome = start_dialog()
@@ -347,11 +365,11 @@ elif S.step == "intro":
 elif S.step == "chat":
     st.title("Restaurant Assistant")
     # keeps the manipulation visible during the task
-    st.caption(cond["label"])  
+    st.info(cond["label"], icon="👤")
     with st.expander("Show task again"):
         st.markdown(TASK_TEXT)
 
-    
+
     while S.pending:
         user_text = S.pending[0]
         try:
@@ -426,7 +444,7 @@ elif S.step == "part_b":
         st.divider()
         mc = st.radio(MANIPULATION_CHECK["question"], MANIPULATION_CHECK["options"], index=None)
         a["author_professional"] = scale("9. How would you rate the professionalism of the chatbot's "
-                                         "developer, based on his/her background?",
+                                         "developer, based on their background?",
                                          "not at all professional", "very professional", "b9")
         a["trust_if_professor"] = yes_no("10. Would you trust the chatbot more if it had been developed "
                                          "by a professor of AI or Data Science?", "b10")
@@ -434,7 +452,7 @@ elif S.step == "part_b":
                                 "improving the AI chatbot. (optional)")
 
         if st.form_submit_button("Submit", type="primary"):
-            if S.get("save_started"):         
+            if S.get("save_started"):         # double click on Submit: already being saved
                 go("debrief")
             if any(v is None or v == [] for v in a.values()) or mc is None:
                 st.error("Please answer all questions (only question 11 is optional).")
@@ -453,7 +471,7 @@ elif S.step == "part_b":
                 S.saved = save_row("participants", S.record)
                 go("debrief")
 
-# last thank you  
+# last thank you
 elif S.step == "debrief":
     st.markdown(DEBRIEF_TEXT)
     st.markdown(f"**Your participant ID: {S.pid}**")
