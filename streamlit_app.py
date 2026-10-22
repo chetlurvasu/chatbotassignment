@@ -124,6 +124,7 @@ LIKERT_HELP = "1 = strongly disagree, 7 = strongly agree"
 # Part B answer options
 YES_NO = ["Yes", "No"]
 FACES = ["😞 Much worse", "🙁 Worse", "😐 About the same", "🙂 Better", "😄 Much better"]
+AI_VIEW_FACES = ["😞 Very negative", "🙁 Negative", "😐 Neutral", "🙂 Positive", "😄 Very positive"]
 USE_CASES = [
     "Daily support / everyday questions", "Studies / homework", "Mathematics",
     "Programming / coding", "Writing or editing texts", "Translation",
@@ -325,14 +326,16 @@ elif S.step == "part_a":
         ai_risks = st.radio("6. How familiar are you with the different errors and risks "
                             "associated with the use of AI? (1 = not at all familiar, 7 = very familiar)",
                             SCALE, index=None, horizontal=True)
-        ai_view = st.text_area("7. What is your view on AI in general?")
+        ai_view = st.radio("7. What is your view on AI in general?",
+                           AI_VIEW_FACES, index=None, horizontal=True)
         if st.form_submit_button("Continue", type="primary"):
             answers = {"age": age, "gender": gender, "profession": profession.strip(),
                        "english": english, "ai_familiarity": ai_familiarity,
-                       "ai_risk_familiarity": ai_risks, "ai_view": ai_view.strip()}
+                       "ai_risk_familiarity": ai_risks, "ai_view": ai_view}
             if any(v is None or v == "" for v in answers.values()):
                 st.error("Please answer all questions.")
             else:
+                answers["ai_view"] = AI_VIEW_FACES.index(ai_view) + 1   # faces as 1-5
                 S.record.update({f"A_{k}": v for k, v in answers.items()})
                 go("developer")
 
@@ -355,7 +358,6 @@ elif S.step == "intro":
     if st.button("Start chatting", type="primary"):
         S.bot, welcome = start_dialog()
         S.messages = [("assistant", welcome)]
-        S.record["chat_start"] = now()
         log_turn("bot", welcome)
         go("chat")
 
@@ -398,16 +400,7 @@ elif S.step == "chat":
     if S.bot.state == "end":
         st.success("The assistant has ended the conversation. Please continue.")
     if st.button("I'm done with the task →", type="primary"):
-        start = datetime.fromisoformat(S.record["chat_start"])
-        S.record.update({
-            "chat_end": now(),
-            "chat_seconds": int((datetime.now(timezone.utc) - start).total_seconds()),
-            "user_turns": sum(1 for r, _ in S.messages if r == "user"),
-            "final_dialog_state": S.bot.state,
-            "got_recommendation": int(bool({"suggest_restaurant", "offer_alternative"} & S.states_seen)),
-            "got_info": int("give_requested_info" in S.states_seen),
-            "last_restaurant": (S.bot.ctx.get("current") or {}).get("data", {}).get("restaurantname", ""),
-        })
+        S.record["user_turns"] = sum(1 for r, _ in S.messages if r == "user")
         go("part_b")
 
 # Part B: research questions
@@ -435,8 +428,8 @@ elif S.step == "part_b":
                                  FACES, index=None, horizontal=True, key="b5")
         a["use_cases"] = st.multiselect("6. What do you usually use AI chatbots for? "
                                         "(select all that apply)", USE_CASES, key="b6")
-        a["info_used_well"] = yes_no("7. Did you feel the chatbot used the information you gave it "
-                                     "well for its suggestion?", "b7")
+        a["info_used_well"] = scale("7. How well did the chatbot use the information you provided "
+                                    "to make its suggestion?", "very poorly", "very well", "b7")
         a["reliable"] = scale("8. How reliable did you find the AI chatbot's responses?",
                               "not at all reliable", "very reliable", "b8")
         st.divider()
@@ -455,7 +448,8 @@ elif S.step == "part_b":
             if any(v is None or v == [] for v in a.values()) or mc is None:
                 st.error("Please answer all questions (only question 11 is optional).")
             else:
-                for k in ("trust", "friendly", "comfort_personal_info", "reliable", "author_professional"):
+                for k in ("trust", "friendly", "comfort_personal_info", "info_used_well", "reliable",
+                          "author_professional"):
                     a[k] = int(a[k])                              # 1-7 as numbers
                 a["vs_human"] = FACES.index(a["vs_human"]) + 1    # faces as 1-5
                 a["use_cases"] = "; ".join(a["use_cases"])
